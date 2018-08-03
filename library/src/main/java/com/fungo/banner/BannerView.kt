@@ -296,6 +296,7 @@ class BannerView<T> : RelativeLayout {
             return super.dispatchTouchEvent(ev)
         }
         when (ev.action) {
+            // TODO 触摸边缘不滑动
         // 按住Banner的时候，停止自动轮播
             MotionEvent.ACTION_MOVE, MotionEvent.ACTION_OUTSIDE, MotionEvent.ACTION_DOWN -> {
                 mFirstTouchTime = System.currentTimeMillis()
