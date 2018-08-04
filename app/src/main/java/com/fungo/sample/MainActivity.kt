@@ -32,11 +32,7 @@ class MainActivity : AppCompatActivity() {
         data.add(BannerBean("我是Banner标题2", "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=605372970,829163520&fm=27&gp=0.jpg"))
         data.add(BannerBean("我是Banner标题3", "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2116705811,3146691174&fm=27&gp=0.jpg"))
 
-
-        mBannerView?.setIndicatorVisible(true)
-        mBannerView?.setIndicatorAlign(BannerView.IndicatorAlign.RIGHT)
-
-        mBannerView?.setPageMode(BannerView.PageMode.NORMAL)
+        mBannerView?.setPageMode(BannerView.PageMode.COVER)
 
         mBannerView?.setPages(data, object : BannerHolderCreator<BannerBean, BannerHolder> {
             override fun onCreateBannerHolder(): BannerHolder {

@@ -324,16 +324,9 @@ class BannerView<T> : RelativeLayout {
     }
 
     /**
-     * 单位转化
-     */
-    private fun dpToPx(dp: Int): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), Resources.getSystem().displayMetrics).toInt()
-    }
-
-    /**
      * BannerView的适配器，设置无限轮播的方式是让适配器以为数据有无限条，然后让第一条为中间位置
      */
-    class BannerPagerAdapter<T>(
+    inner class BannerPagerAdapter<T>(
             private val datas: List<T>,
             private val holderCreator: BannerHolderCreator<T, *>,
             private val loopEnable: Boolean) : PagerAdapter() {
@@ -479,6 +472,13 @@ class BannerView<T> : RelativeLayout {
         fun onPageClick(view: View, position: Int, data: T)
     }
 
+    /**
+     * 单位转化
+     */
+    private fun dpToPx(dp: Int): Int {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), Resources.getSystem().displayMetrics).toInt()
+    }
+
 
     // －－－－－－－－－－－相关常用API－－－－－－－－－－－－－－
     // －－－－－－－－－－－相关常用API－－－－－－－－－－－－－－
@@ -610,20 +610,23 @@ class BannerView<T> : RelativeLayout {
 
     /**
      * 添加Banner滑动事件
+     * @param listener 滑动回调
      */
-    fun addPageChangeLisnter(onPageChangeListener: ViewPager.OnPageChangeListener) {
-        this.mOnPageChangeListener = onPageChangeListener
+    fun addPageChangeLisnter(listener: ViewPager.OnPageChangeListener) {
+        this.mOnPageChangeListener = listener
     }
 
     /**
      * 添加Banner点击事件
+     * @param listener 点击回调
      */
-    fun setBannerPageClickListener(bannerPageClickListener: BannerPageClickListener<T>) {
-        this.mBannerPageClickListener = bannerPageClickListener
+    fun setBannerPageClickListener(listener: BannerPageClickListener<T>) {
+        this.mBannerPageClickListener = listener
     }
 
     /**
      * 是否显示Indicator
+     * @param visible 是否可见
      */
     fun setIndicatorVisible(visible: Boolean) {
         if (visible) {
@@ -637,11 +640,14 @@ class BannerView<T> : RelativeLayout {
      * 设置Indicator 的对齐方式
      * 需要在setPages之前设置，如果要设置indicator的边距，也要在setIndicatorAlign方法前设置
      * @param indicatorAlign 包括三个方向
-     * 中间：[IndicatorAlign.CENTER]
+     * 中间：[IndicatorAlign.CENTER]　
      * 左边：[IndicatorAlign.LEFT]
      * 右边：[IndicatorAlign.RIGHT]
      */
     fun setIndicatorAlign(indicatorAlign: IndicatorAlign) {
+        // 如果是否了指示器展示的位置，则先设置指示器可见
+        setIndicatorVisible(true)
+
         // 设置Indicator展示的位置
         mIndicatorAlign = indicatorAlign
 
@@ -668,6 +674,19 @@ class BannerView<T> : RelativeLayout {
         this.mIndicatorRes[1] = selectRes
     }
 
+    /**
+     * 设置指示器的边距
+     * @param left 左边padding值
+     * @param top 顶部padding值
+     * @param right 右边padding值
+     * @param bottom 底部padding值
+     */
+    fun setIndicatorPadding(left: Int, top: Int, right: Int, bottom: Int) {
+        mIndicatorPaddingLeft = left
+        mIndicatorPaddingTop = top
+        mIndicatorPaddingRight = right
+        mIndicatorPaddingBottom = bottom
+    }
 
     /**
      * 设置自动轮播
@@ -724,9 +743,10 @@ class BannerView<T> : RelativeLayout {
      * 页面轮播的模式
      * 设置页面模式之前，如果要对padding和margin这些属性设置
      * 一定要在setPages或者setPageMode之前设置，不然不会生效
+     * @param pageMode　轮播模式
      */
-    fun setPageMode(mode: PageMode) {
-        mPageMode = mode
+    fun setPageMode(pageMode: PageMode) {
+        mPageMode = pageMode
         // 如果设置的是普通的模式，这里需要将默认的Padding重置
         if (mPageMode == PageMode.NORMAL) {
             mPagePadding = 0
