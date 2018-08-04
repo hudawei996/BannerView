@@ -11,16 +11,20 @@
         android:id="@+id/bannerView"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@color/colorAccent"
-        app:bannerCanLoop="true"
-        app:bannerCoverPadding="30dp"
-        app:bannerCoverWidth="10dp"
-        app:bannerFarMargin="10dp"
-        app:bannerMode="far"
-        app:indicatorAlign="center"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <!--app:bannerPageAlpha="0.6"-->
+    <!--app:bannerPageScale="0.9"-->
+    <!--app:bannerCoverMargin="10dp"-->
+    <!--app:bannerFarMargin="10dp"-->
+    <!--app:bannerAutoLoop="true"-->
+    <!--app:bannerPageMode="cover"-->
+    <!--app:bannerPagePadding="30dp"-->
+    <!--app:indicatorVisible="false"-->
+    <!--app:indicatorAlign="center"-->
 </android.support.constraint.ConstraintLayout>

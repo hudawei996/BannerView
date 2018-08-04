@@ -1,6 +1,5 @@
 package com.fungo.banner.transformer
 
-import android.support.v4.view.ViewCompat
 import android.support.v4.view.ViewPager
 import android.view.View
 
@@ -19,20 +18,21 @@ class ScaleAlphaTransformer(private var scaleValue: Float, private var alphaValu
             (1 - scaleValue) * position + 1
         else
             (scaleValue - 1) * position + 1
+
         val alpha = if (position < 0)
             (1 - alphaValue) * position + 1
         else
             (alphaValue - 1) * position + 1
         // 保持左右两边的图片位置中心
         if (position < 0) {
-            ViewCompat.setPivotX(page, page.width.toFloat())
-            ViewCompat.setPivotY(page, (page.height / 2).toFloat())
+            page.pivotX = page.width.toFloat()
+            page.pivotY = (page.height / 2).toFloat()
         } else {
-            ViewCompat.setPivotX(page, 0f)
-            ViewCompat.setPivotY(page, (page.height / 2).toFloat())
+            page.pivotX = 0f
+            page.pivotY = (page.height / 2).toFloat()
         }
-        ViewCompat.setScaleX(page, scale)
-        ViewCompat.setScaleY(page, scale)
-        ViewCompat.setAlpha(page, Math.abs(alpha))
+        page.scaleX = scale
+        page.scaleY = scale
+        page.alpha = Math.abs(alpha)
     }
 }

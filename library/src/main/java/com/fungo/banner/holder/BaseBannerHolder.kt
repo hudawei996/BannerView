@@ -7,6 +7,8 @@ import android.view.View
  * @since 18-7-20 下午16:22
  *
  * Banner条目的Holder，提供创建视图和绑定数据的接口
+ * 在BannerView的内部类BannerPagerAdapter的getView方法里会获取到Holder对象
+ * 然后分别回调getHolderResId()和onBindData()方法
  */
 
 interface BaseBannerHolder<in T> {

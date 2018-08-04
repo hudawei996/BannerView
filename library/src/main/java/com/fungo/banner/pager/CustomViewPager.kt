@@ -38,7 +38,7 @@ class CustomViewPager : ViewPager {
             val viewCenterX = getViewCenterX(this)
             for (i in 0 until childCount) {
                 var indexAbs = Math.abs(viewCenterX - getViewCenterX(getChildAt(i)))
-                //两个距离相同，后来的那个做自增，从而保持abs不同
+                // 两个距离相同，后来的那个做自增，从而保持abs不同
                 ++indexAbs
                 childCenterXAbs.add(indexAbs)
                 childIndex.append(indexAbs, i)

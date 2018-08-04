@@ -3,18 +3,18 @@
 
     <!--BannerView-->
     <declare-styleable name="BannerView">
-        <attr name="bannerCanLoop" format="boolean" />
-        <attr name="bannerCoverWidth" format="dimension" />
-        <attr name="bannerCoverPadding" format="dimension" />
+        <attr name="bannerAutoLoop" format="boolean" />
+        <attr name="bannerCoverMargin" format="dimension" />
         <attr name="bannerFarMargin" format="dimension" />
+        <attr name="bannerPagePadding" format="dimension" />
         <attr name="bannerPageScale" format="float" />
         <attr name="bannerPageAlpha" format="float" />
-        <attr name="bannerPagePercent" format="float" />
-        <attr name="bannerMode">
+        <attr name="bannerPageMode">
             <enum name="normal" value="0" />
             <enum name="cover" value="1" />
             <enum name="far" value="2" />
         </attr>
+        <attr name="indicatorVisible" format="boolean" />
         <attr name="indicatorPaddingLeft" format="dimension" />
         <attr name="indicatorPaddingRight" format="dimension" />
         <attr name="indicatorPaddingTop" format="dimension" />
