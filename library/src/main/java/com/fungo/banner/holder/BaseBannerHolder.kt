@@ -28,4 +28,13 @@ interface BaseBannerHolder<in T> {
     fun onBindData(itemView: View, data: T)
 
 
+    /**
+     * Holder的点击回调
+     * 如果需要实现Holder的点击，只需要重写这个方法就好
+     * 如果不需要点击，就不要理会
+     */
+    fun onPageClick(itemView: View, position: Int, data: T) {
+
+    }
+
 }

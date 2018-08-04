@@ -2,13 +2,11 @@ package com.fungo.sample
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import com.fungo.banner.BannerView
 import com.fungo.banner.holder.BannerHolderCreator
-import com.fungo.banner.holder.BaseBannerHolder
-import com.fungo.imagego.loadImage
+import com.fungo.sample.banner.BannerBean
+import com.fungo.sample.banner.BannerHolder
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,44 +15,57 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         mBannerView = findViewById(R.id.bannerView)
 
-        mBannerView?.setBannerPageClickListener(object : BannerView.BannerPageClickListener<BannerBean> {
-            override fun onPageClick(view: View, position: Int, data: BannerBean) {
-                Toast.makeText(this@MainActivity, data.title, Toast.LENGTH_SHORT).show()
+        initEvent()
+    }
+
+    private fun initEvent() {
+
+        rgDataFrom.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.rbLocal -> updateBanner(DataProvider.getWebBannerData())
+                else -> updateBanner(DataProvider.getWebBannerData())
             }
-        })
 
-        val data = ArrayList<BannerBean>()
-        data.add(BannerBean("我是Banner标题0", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532628464134&di=b3aa02630ce090b5773b53fe1b1205b1&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0173eb59080ec0a801214550fd7500.jpg%401280w_1l_2o_100sh.jpg"))
-        data.add(BannerBean("我是Banner标题1", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533381170611&di=8583f213befa7d71095470971a956947&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0105455608951732f875a132b93e14.jpg%401280w_1l_2o_100sh.jpg"))
-        data.add(BannerBean("我是Banner标题2", "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=605372970,829163520&fm=27&gp=0.jpg"))
-        data.add(BannerBean("我是Banner标题3", "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2116705811,3146691174&fm=27&gp=0.jpg"))
+        }
 
-        mBannerView?.setPageMode(BannerView.PageMode.COVER)
+        rgPageMode.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.rbCover -> mBannerView?.setPageMode(BannerView.PageMode.COVER)
+                R.id.rbFar -> mBannerView?.setPageMode(BannerView.PageMode.FAR)
+                else -> mBannerView?.setPageMode(BannerView.PageMode.NORMAL)
+            }
+        }
 
+
+        rgIndicatorAlign.setOnCheckedChangeListener { _, checkedId ->
+            mBannerView?.setIndicatorVisible(true)
+            when (checkedId) {
+                R.id.rbLeft -> mBannerView?.setIndicatorAlign(BannerView.IndicatorAlign.LEFT)
+                R.id.rbRight -> mBannerView?.setIndicatorAlign(BannerView.IndicatorAlign.RIGHT)
+                R.id.rbCenter -> mBannerView?.setIndicatorAlign(BannerView.IndicatorAlign.CENTER)
+                else -> mBannerView?.setIndicatorVisible(false)
+            }
+        }
+
+
+        rbNormal.isChecked = true
+        rbRight.isChecked = true
+    }
+
+
+    /**
+     * 更新BannerView
+     */
+    private fun updateBanner(data: ArrayList<BannerBean>) {
         mBannerView?.setPages(data, object : BannerHolderCreator<BannerBean, BannerHolder> {
             override fun onCreateBannerHolder(): BannerHolder {
-                return BannerHolder()
+                return BannerHolder(mBannerView?.getPageMode() == BannerView.PageMode.NORMAL)
             }
         })
     }
 
-    data class BannerBean(var title: String, var url: String)
-
-    inner class BannerHolder : BaseBannerHolder<BannerBean> {
-
-        override fun getHolderResId(): Int {
-            return R.layout.holder_banner
-        }
-
-        override fun onBindData(itemView: View, data: BannerBean) {
-            loadImage(data.url, itemView.findViewById(R.id.imageView))
-            itemView.findViewById<TextView>(R.id.textView)?.text = data.title
-
-        }
-    }
 
     override fun onResume() {
         super.onResume()
@@ -66,6 +77,5 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         mBannerView?.pause()
     }
-
 }
 

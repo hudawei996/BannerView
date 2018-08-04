@@ -103,8 +103,6 @@ class BannerView<T> : RelativeLayout {
 
     // 页面改变的监听事件
     private var mOnPageChangeListener: ViewPager.OnPageChangeListener? = null
-    // 页面点击的监听事件
-    private var mBannerPageClickListener: BannerPageClickListener<T>? = null
 
     // ViewPager
     private val mViewPager: CustomViewPager by lazy {
@@ -149,9 +147,9 @@ class BannerView<T> : RelativeLayout {
 
         val indicatorAlign = typedArray.getInt(R.styleable.BannerView_indicatorAlign, mIndicatorAlign.ordinal)
         mIndicatorPaddingLeft = typedArray.getDimensionPixelSize(R.styleable.BannerView_indicatorPaddingLeft, mIndicatorPaddingLeft)
-        mIndicatorPaddingRight = typedArray.getDimensionPixelSize(R.styleable.BannerView_indicatorPaddingRight, mIndicatorPaddingLeft)
-        mIndicatorPaddingTop = typedArray.getDimensionPixelSize(R.styleable.BannerView_indicatorPaddingTop, mIndicatorPaddingLeft)
-        mIndicatorPaddingBottom = typedArray.getDimensionPixelSize(R.styleable.BannerView_indicatorPaddingBottom, mIndicatorPaddingLeft)
+        mIndicatorPaddingRight = typedArray.getDimensionPixelSize(R.styleable.BannerView_indicatorPaddingRight, mIndicatorPaddingRight)
+        mIndicatorPaddingTop = typedArray.getDimensionPixelSize(R.styleable.BannerView_indicatorPaddingTop, mIndicatorPaddingTop)
+        mIndicatorPaddingBottom = typedArray.getDimensionPixelSize(R.styleable.BannerView_indicatorPaddingBottom, mIndicatorPaddingBottom)
         typedArray.recycle()
 
         mPageMode = when (pageMode) {
@@ -174,11 +172,8 @@ class BannerView<T> : RelativeLayout {
         // 初始化Scroller
         initViewPagerScroll()
 
-        // 设置指示器的位置
-        setIndicatorAlign(mIndicatorAlign)
-
-        // 指示器默认不可展示
-        setIndicatorVisible(false)
+        // 设置页面轮播模式
+        initPageMode(mPageMode)
     }
 
     /**
@@ -208,6 +203,7 @@ class BannerView<T> : RelativeLayout {
     private val mLoopRunnable = object : Runnable {
         override fun run() {
             if (isAutoLooping) {
+                checkNotNull(mViewPager)
                 mCurrentItem = mViewPager.currentItem
                 mCurrentItem++
                 if (mCurrentItem == mAdapter.count - 1) {
@@ -250,36 +246,24 @@ class BannerView<T> : RelativeLayout {
     private fun initIndicator(datas: List<T>?) {
         mIndicatorContainer.removeAllViews()
         mIndicators.clear()
+
+        // 设置指示器的位置
+        setIndicatorAlign(mIndicatorAlign)
+
+        // 填充指示器
         for (i in datas!!.indices) {
             val imageView = ImageView(context)
-            if (mIndicatorAlign == IndicatorAlign.LEFT) {
-                if (i == 0) {
-                    val paddingLeft = mIndicatorPaddingLeft + mPagePadding
-                    imageView.setPadding(paddingLeft + 6, 0, 6, 0)
-                } else {
-                    imageView.setPadding(6, 0, 6, 0)
-                }
-            } else if (mIndicatorAlign == IndicatorAlign.RIGHT) {
-                if (i == datas.size - 1) {
-                    val paddingRight = mIndicatorPaddingRight + mPagePadding
-                    imageView.setPadding(6, 0, 6 + paddingRight, 0)
-                } else {
-                    imageView.setPadding(6, 0, 6, 0)
-                }
-
-            } else {
-                imageView.setPadding(6, 0, 6, 0)
-            }
-
+            imageView.setPadding(6, 0, 6, 0)
             if (i == mCurrentItem % datas.size) {
                 imageView.setImageResource(mIndicatorRes[1])
             } else {
                 imageView.setImageResource(mIndicatorRes[0])
             }
-
             mIndicators.add(imageView)
             mIndicatorContainer.addView(imageView)
         }
+
+
     }
 
     /**
@@ -297,7 +281,10 @@ class BannerView<T> : RelativeLayout {
                 mViewPager.setPageTransformer(false, ScaleAlphaTransformer(mPageScale, mPageAlpha))
             }
             else -> {
-                // 普通模式，不做任何操作
+                // 普通模式，设置默认的transformer
+                mViewPager.setPadding(0, 0, 0, 0)
+                mViewPager.pageMargin = 0
+                mViewPager.setPageTransformer(false) { _, _ -> }
             }
         }
     }
@@ -332,7 +319,6 @@ class BannerView<T> : RelativeLayout {
             private val loopEnable: Boolean) : PagerAdapter() {
 
         private var pageReference: WeakReference<ViewPager>? = null
-        private var pageClickListener: BannerPageClickListener<T>? = null
         private val looperCountFactor = 500
 
         /**
@@ -357,10 +343,6 @@ class BannerView<T> : RelativeLayout {
          */
         private val realCount: Int
             get() = datas.size
-
-        fun setPageClickListener(pageClickListener: BannerPageClickListener<T>?) {
-            this.pageClickListener = pageClickListener
-        }
 
         /**
          * 初始化Adapter和设置当前选中的Item
@@ -435,9 +417,9 @@ class BannerView<T> : RelativeLayout {
                 holder.onBindData(view, datas[realPosition])
             }
 
-            // add listener
+            // set listener
             view.setOnClickListener { v ->
-                pageClickListener?.onPageClick(v, realPosition, datas[realPosition])
+                holder.onPageClick(v, realPosition, datas[realPosition])
             }
             return view
         }
@@ -480,6 +462,33 @@ class BannerView<T> : RelativeLayout {
     }
 
 
+    /**
+     * 添加指示器的位置规则
+     * 由于RelativeLayout的布局规则，不能添加冲突的规则，所以这里需要
+     * 先将之前可能添加的规则移除掉
+     * @param params 布局参数
+     * @param verb 规则
+     */
+    private fun addIndicatorRule(params: RelativeLayout.LayoutParams, verb: Int) {
+        when (verb) {
+            RelativeLayout.ALIGN_PARENT_LEFT -> {
+                params.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT)
+                params.removeRule(RelativeLayout.CENTER_HORIZONTAL)
+            }
+            RelativeLayout.ALIGN_PARENT_RIGHT -> {
+                params.removeRule(RelativeLayout.ALIGN_PARENT_LEFT)
+                params.removeRule(RelativeLayout.CENTER_HORIZONTAL)
+            }
+
+            RelativeLayout.CENTER_HORIZONTAL -> {
+                params.removeRule(RelativeLayout.ALIGN_PARENT_LEFT)
+                params.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT)
+            }
+        }
+        params.addRule(verb)
+    }
+
+
     // －－－－－－－－－－－相关常用API－－－－－－－－－－－－－－
     // －－－－－－－－－－－相关常用API－－－－－－－－－－－－－－
     // －－－－－－－－－－－相关常用API－－－－－－－－－－－－－－
@@ -512,7 +521,6 @@ class BannerView<T> : RelativeLayout {
         // 设置ViewPager适配器
         mAdapter = BannerPagerAdapter(datas, holderCreator, isAutoLoop)
         mAdapter.setUpViewPager(mViewPager)
-        mAdapter.setPageClickListener(mBannerPageClickListener)
 
         // 添加滑动监听
         mViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -556,9 +564,6 @@ class BannerView<T> : RelativeLayout {
 
         // 根据数据的大小，初始化Indicator
         initIndicator(datas)
-
-        // 设置页面轮播模式
-        initPageMode(mPageMode)
 
         // 如果设置了可以轮播，那就设置自动轮播
         if (isAutoLoop) {
@@ -617,14 +622,6 @@ class BannerView<T> : RelativeLayout {
     }
 
     /**
-     * 添加Banner点击事件
-     * @param listener 点击回调
-     */
-    fun setBannerPageClickListener(listener: BannerPageClickListener<T>) {
-        this.mBannerPageClickListener = listener
-    }
-
-    /**
      * 是否显示Indicator
      * @param visible 是否可见
      */
@@ -645,21 +642,20 @@ class BannerView<T> : RelativeLayout {
      * 右边：[IndicatorAlign.RIGHT]
      */
     fun setIndicatorAlign(indicatorAlign: IndicatorAlign) {
-        // 如果是否了指示器展示的位置，则先设置指示器可见
-        setIndicatorVisible(true)
-
         // 设置Indicator展示的位置
         mIndicatorAlign = indicatorAlign
 
-        val layoutParams = mIndicatorContainer.layoutParams as RelativeLayout.LayoutParams
+        val params = mIndicatorContainer.layoutParams as RelativeLayout.LayoutParams
+
         when (indicatorAlign) {
-            IndicatorAlign.LEFT -> layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT)
-            IndicatorAlign.RIGHT -> layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
-            else -> layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL)
+            IndicatorAlign.LEFT -> addIndicatorRule(params, RelativeLayout.ALIGN_PARENT_LEFT)
+            IndicatorAlign.RIGHT -> addIndicatorRule(params, RelativeLayout.ALIGN_PARENT_RIGHT)
+            else -> addIndicatorRule(params, RelativeLayout.CENTER_HORIZONTAL)
         }
-        // 增加设置Indicator 的上下边距
-        layoutParams.setMargins(0, mIndicatorPaddingTop, 0, mIndicatorPaddingBottom)
-        mIndicatorContainer.layoutParams = layoutParams
+
+        // 设置Indicator 的边距
+        params.setMargins(mIndicatorPaddingLeft + mPagePadding, mIndicatorPaddingTop, mIndicatorPaddingRight + mPagePadding, mIndicatorPaddingBottom)
+        mIndicatorContainer.layoutParams = params
     }
 
 
@@ -748,8 +744,16 @@ class BannerView<T> : RelativeLayout {
     fun setPageMode(pageMode: PageMode) {
         mPageMode = pageMode
         // 如果设置的是普通的模式，这里需要将默认的Padding重置
-        if (mPageMode == PageMode.NORMAL) {
-            mPagePadding = 0
-        }
+        mPagePadding = if (mPageMode == PageMode.NORMAL) 0 else dpToPx(20)
+
+        initPageMode(pageMode)
+    }
+
+    /**
+     * 获取当前的页面模式
+     * @return 页面模式
+     */
+    fun getPageMode(): PageMode {
+        return mPageMode
     }
 }

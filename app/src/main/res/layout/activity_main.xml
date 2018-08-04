@@ -7,24 +7,179 @@
     android:background="@color/colorPrimary"
     tools:context=".MainActivity">
 
+    <!--普通模式-->
     <com.fungo.banner.BannerView
         android:id="@+id/bannerView"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="30dp"
+        app:bannerPageMode="normal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--数据来源-->
+    <LinearLayout
+        android:id="@+id/dataFromContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bannerView">
 
-    <!--app:bannerPageAlpha="0.6"-->
-    <!--app:bannerPageScale="0.9"-->
-    <!--app:bannerCoverMargin="10dp"-->
-    <!--app:bannerFarMargin="10dp"-->
-    <!--app:bannerAutoLoop="true"-->
-    <!--app:bannerPageMode="cover"-->
-    <!--app:bannerPagePadding="30dp"-->
-    <!--app:indicatorVisible="false"-->
-    <!--app:indicatorAlign="center"-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数据来源："
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:id="@+id/rgDataFrom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbWeb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="网络"
+                android:textColor="@android:color/white" />
+
+            <RadioButton
+                android:id="@+id/rbLocal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="本地"
+                android:textColor="@android:color/white" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <!--页面模式-->
+    <LinearLayout
+        android:id="@+id/pageModeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dataFromContainer">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="页面模式："
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:id="@+id/rgPageMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="普通"
+                android:textColor="@android:color/white" />
+
+            <RadioButton
+                android:id="@+id/rbCover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="覆盖"
+                android:textColor="@android:color/white" />
+
+
+            <RadioButton
+                android:id="@+id/rbFar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="远离"
+                android:textColor="@android:color/white" />
+
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+    <!--指示器-->
+    <LinearLayout
+        android:id="@+id/indicatorContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pageModeContainer">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="指示器："
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:id="@+id/rgIndicatorAlign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="左边"
+                android:textColor="@android:color/white" />
+
+            <RadioButton
+                android:id="@+id/rbCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="中间"
+                android:textColor="@android:color/white" />
+
+            <RadioButton
+                android:id="@+id/rbRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="右边"
+                android:textColor="@android:color/white" />
+
+            <RadioButton
+                android:id="@+id/rbHide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="隐藏"
+                android:textColor="@android:color/white" />
+
+
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>
