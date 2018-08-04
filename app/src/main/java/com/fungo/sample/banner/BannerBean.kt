@@ -5,4 +5,4 @@ package com.fungo.sample.banner
  * @since 18-8-4 下午5:56
  */
 
-data class BannerBean(var title: String, var imageUrl: String)
+data class BannerBean(var title: String, var imageUrl: String, var imageRes: Int = 0)

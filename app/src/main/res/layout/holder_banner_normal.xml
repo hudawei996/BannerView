@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:elevation="4dp">
+    android:elevation="4dp"
+    android:foreground="?android:selectableItemBackgroundBorderless">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="center" />
+        android:scaleType="centerCrop" />
 
 
     <TextView
@@ -19,7 +20,7 @@
         android:layout_gravity="bottom"
         android:layout_margin="10dp"
         android:textColor="@android:color/white"
-        android:textSize="12sp"
+        android:textSize="14sp"
         tools:text="我是标题" />
 
 </FrameLayout>

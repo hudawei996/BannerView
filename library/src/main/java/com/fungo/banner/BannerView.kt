@@ -49,8 +49,8 @@ class BannerView<T> : RelativeLayout {
     // 控制ViewPager滑动速度的Scroller
     private lateinit var mViewPagerScroller: ViewPagerScroller
 
-    // ViewPager的适配器
-    private lateinit var mAdapter: BannerPagerAdapter<T>
+    // 适配器
+    private var mAdapter: BannerPagerAdapter<T>? = null
 
     // ViewPager当前位置
     private var mCurrentItem = 0
@@ -116,6 +116,7 @@ class BannerView<T> : RelativeLayout {
 
     // 指示器的ImageView集合
     private val mIndicators = ArrayList<ImageView>()
+
     // 指示器的图片资源 mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
     private val mIndicatorRes = intArrayOf(R.drawable.banner_indicator_normal, R.drawable.banner_indicator_selected)
 
@@ -171,9 +172,6 @@ class BannerView<T> : RelativeLayout {
 
         // 初始化Scroller
         initViewPagerScroll()
-
-        // 设置页面轮播模式
-        initPageMode(mPageMode)
     }
 
     /**
@@ -202,11 +200,11 @@ class BannerView<T> : RelativeLayout {
     private val mHandler = Handler()
     private val mLoopRunnable = object : Runnable {
         override fun run() {
+            if (mAdapter == null) return
             if (isAutoLooping) {
-                checkNotNull(mViewPager)
                 mCurrentItem = mViewPager.currentItem
                 mCurrentItem++
-                if (mCurrentItem == mAdapter.count - 1) {
+                if (mCurrentItem == mAdapter!!.count - 1) {
                     mCurrentItem = 0
                     mViewPager.setCurrentItem(mCurrentItem, false)
                     mHandler.postDelayed(this, mDuration)
@@ -243,7 +241,12 @@ class BannerView<T> : RelativeLayout {
     /**
      * 初始化指示器Indicator
      */
-    private fun initIndicator(datas: List<T>?) {
+    private fun initIndicator(datas: List<T>) {
+        // 如果数据大小不够就隐藏
+        if (datas.size < 2) {
+            setIndicatorVisible(false)
+        }
+
         mIndicatorContainer.removeAllViews()
         mIndicators.clear()
 
@@ -251,7 +254,7 @@ class BannerView<T> : RelativeLayout {
         setIndicatorAlign(mIndicatorAlign)
 
         // 填充指示器
-        for (i in datas!!.indices) {
+        for (i in datas.indices) {
             val imageView = ImageView(context)
             imageView.setPadding(6, 0, 6, 0)
             if (i == mCurrentItem % datas.size) {
@@ -272,6 +275,7 @@ class BannerView<T> : RelativeLayout {
     private fun initPageMode(pageMode: PageMode) {
         when (pageMode) {
             PageMode.COVER -> {
+                mViewPager.pageMargin = 0
                 mViewPager.setPadding(mPagePadding, 0, mPagePadding, 0)
                 mViewPager.setPageTransformer(false, CoverModeTransformer(mViewPager, mCoverMargin, mPagePadding, mPageScale, mPageAlpha))
             }
@@ -351,7 +355,7 @@ class BannerView<T> : RelativeLayout {
             pageReference = WeakReference(viewPager)
 
             viewPager.adapter = this
-            viewPager.adapter!!.notifyDataSetChanged()
+            notifyDataSetChanged()
             val currentItem = if (loopEnable) startSelectItem else 0
             // 设置当前选中的Item
             viewPager.currentItem = currentItem
@@ -515,12 +519,11 @@ class BannerView<T> : RelativeLayout {
             mViewPager.layoutParams = layoutParams
             clipChildren = true
             mViewPager.clipChildren = true
-            isAutoLoop = false
         }
 
         // 设置ViewPager适配器
         mAdapter = BannerPagerAdapter(datas, holderCreator, isAutoLoop)
-        mAdapter.setUpViewPager(mViewPager)
+        mAdapter!!.setUpViewPager(mViewPager)
 
         // 添加滑动监听
         mViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -535,6 +538,8 @@ class BannerView<T> : RelativeLayout {
             override fun onPageSelected(position: Int) {
                 mCurrentItem = position
 
+                // 如果数据不对等就return
+                if (mIndicators.size != datas.size) return
 
                 // 切换indicator
                 val realSelectPosition = mCurrentItem % mIndicators.size
@@ -565,6 +570,9 @@ class BannerView<T> : RelativeLayout {
         // 根据数据的大小，初始化Indicator
         initIndicator(datas)
 
+        // 设置页面轮播模式
+        initPageMode(mPageMode)
+
         // 如果设置了可以轮播，那就设置自动轮播
         if (isAutoLoop) {
             start()
@@ -579,7 +587,7 @@ class BannerView<T> : RelativeLayout {
      */
     fun start() {
         // 如果Adapter为null, 说明还没有设置数据，这个时候不应该轮播Banner
-        if (isAutoLoop && !isAutoLooping) {
+        if (isAutoLoop && !isAutoLooping && mAdapter?.count ?: 0 > 2) {
             isAutoLooping = true
             this.mHandler.postDelayed(mLoopRunnable, mDuration)
         }
@@ -642,6 +650,11 @@ class BannerView<T> : RelativeLayout {
      * 右边：[IndicatorAlign.RIGHT]
      */
     fun setIndicatorAlign(indicatorAlign: IndicatorAlign) {
+        // 如果数据不够2条就不展示指示器
+        if (mAdapter?.count ?: 0 < 2) {
+            setIndicatorVisible(false)
+        }
+
         // 设置Indicator展示的位置
         mIndicatorAlign = indicatorAlign
 
@@ -745,8 +758,6 @@ class BannerView<T> : RelativeLayout {
         mPageMode = pageMode
         // 如果设置的是普通的模式，这里需要将默认的Padding重置
         mPagePadding = if (mPageMode == PageMode.NORMAL) 0 else dpToPx(20)
-
-        initPageMode(pageMode)
     }
 
     /**

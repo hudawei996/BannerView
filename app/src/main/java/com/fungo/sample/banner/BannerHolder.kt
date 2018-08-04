@@ -1,6 +1,8 @@
 package com.fungo.sample.banner
 
+import android.text.TextUtils
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.fungo.banner.holder.BaseBannerHolder
@@ -22,7 +24,11 @@ class BannerHolder(private var isNormalBanner: Boolean) : BaseBannerHolder<Banne
     }
 
     override fun onBindData(itemView: View, data: BannerBean) {
-        loadImage(data.imageUrl, itemView.findViewById(R.id.imageView))
+        if (TextUtils.isEmpty(data.imageUrl)) {
+            itemView.findViewById<ImageView>(R.id.imageView).setImageResource(data.imageRes)
+        } else {
+            loadImage(data.imageUrl, itemView.findViewById(R.id.imageView))
+        }
         itemView.findViewById<TextView>(R.id.textView)?.text = data.title
     }
 
