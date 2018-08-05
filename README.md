@@ -2,7 +2,10 @@
 [![](https://img.shields.io/badge/release-v1.0.0-orange.svg)](https://github.com/PingerOne/BannerView/releases) [![](https://www.jitpack.io/v/PingerOne/BannerView.svg)](https://www.jitpack.io/#PingerOne/BannerView) [![](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/PingerOne/BannerView/blob/master/LICENSE) [![](https://img.shields.io/badge/简书-笑说余生-red.svg)](https://www.jianshu.com/u/64f479a1cef7)
 
 
+
 轮播图控件，封装ViewPager，支持无限循环轮播，支持三种常用页面特效，支持设置指示器，支持自动切换手动滑动和自动滑动的滑动时长，封装Banner的Holder实现更加简单。使用Kotlin开发，在项目中使用，满足大部分Banner相关需求，可以直接使用。
+
+本项目基于[MZBannerView](https://github.com/pinguo-zhouwei/MZBannerView)进行二次开发，只用于开源交流，如果侵权等问题请及时提醒。
 
 ## 简单预览
 ![简单预览](http://chuantu.biz/t6/353/1533459585x-1566660894.jpg)
