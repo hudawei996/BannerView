@@ -55,7 +55,7 @@ class BannerView<T> : RelativeLayout {
     // ViewPager当前位置
     private var mCurrentItem = 0
 
-    // Banner自动轮播的切换时间
+    // Banner自动轮播的切换时间，默认是4秒
     private var mDuration = 4000L
 
     // 是否自动轮播图片

@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 rbWeb.isChecked = true
                 rbNormal.isChecked = true
                 rbHide.isChecked = true
-            }, 2000)
+            }, 1200)
         }
 
 

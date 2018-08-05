@@ -4,11 +4,13 @@ import android.content.Context
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.util.SparseIntArray
+import android.view.MotionEvent
 import android.view.View
 import java.util.*
 
 
 class CustomViewPager : ViewPager {
+
     private val childCenterXAbs = ArrayList<Int>()
     private val childIndex = SparseIntArray()
 
@@ -54,4 +56,61 @@ class CustomViewPager : ViewPager {
         view.getLocationOnScreen(array)
         return array[0] + view.width / 2
     }
+
+
+    /**
+     * 避免多点触摸崩溃
+     */
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        try {
+            return super.onTouchEvent(ev)
+        } catch (ex: IllegalArgumentException) {
+            ex.printStackTrace()
+        }
+
+        return false
+    }
+
+    /**
+     * 解决ViewPager左右滑动与父容器上下滑动冲突的问题
+     * 加上try避免多点触摸崩溃
+     */
+    private var lastX = 0
+    private var lastY = 0
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        try {
+            val x = ev.rawX.toInt()
+            val y = ev.rawY.toInt()
+            var dealtX = 0
+            var dealtY = 0
+
+            when (ev.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    // 保证子View能够接收到Action_move事件
+                    parent.requestDisallowInterceptTouchEvent(true)
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    dealtX += Math.abs(x - lastX)
+                    dealtY += Math.abs(y - lastY)
+                    // 这里是够拦截的判断依据是左右滑动，读者可根据自己的逻辑进行是否拦截
+                    if (dealtX >= dealtY) {
+                        parent.requestDisallowInterceptTouchEvent(true)
+                    } else {
+                        parent.requestDisallowInterceptTouchEvent(false)
+                    }
+                    lastX = x
+                    lastY = y
+                }
+                MotionEvent.ACTION_CANCEL -> {
+                }
+                MotionEvent.ACTION_UP -> {
+                }
+            }
+            return super.dispatchTouchEvent(ev)
+        } catch (ex: IllegalArgumentException) {
+            ex.printStackTrace()
+        }
+        return false
+    }
+
 }
