@@ -1,13 +1,13 @@
 ### BannerView(轮播图控件)
-[![](https://img.shields.io/badge/release-v1.0.0-orange.svg)](https://github.com/PingerOne/BannerView/releases)[![](https://www.jitpack.io/v/PingerOne/BannerView.svg)](https://www.jitpack.io/#PingerOne/BannerView)[![](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/PingerOne/BannerView/blob/master/LICENSE)[![](https://img.shields.io/badge/简书-笑说余生-red.svg)](https://www.jianshu.com/u/64f479a1cef7)
+[![](https://img.shields.io/badge/release-v1.0.0-orange.svg)](https://github.com/PingerOne/BannerView/releases) [![](https://www.jitpack.io/v/PingerOne/BannerView.svg)](https://www.jitpack.io/#PingerOne/BannerView) [![](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/PingerOne/BannerView/blob/master/LICENSE) [![](https://img.shields.io/badge/简书-笑说余生-red.svg)](https://www.jianshu.com/u/64f479a1cef7)
 
 
 ---
->  轮播图控件，封装ViewPager，支持无限循环轮播，支持三种常用页面特效，支持设置指示器，支持自动切换手动滑动和自动滑动的滑动时长，封装Banner的Holder实现更加简单。使用Kotlin开发，在项目中使用，满足大部分Banner相关需求，可以直接使用。
+轮播图控件，封装ViewPager，支持无限循环轮播，支持三种常用页面特效，支持设置指示器，支持自动切换手动滑动和自动滑动的滑动时长，封装Banner的Holder实现更加简单。使用Kotlin开发，在项目中使用，满足大部分Banner相关需求，可以直接使用。
 
 ### 简单预览
 
-<img src="http://static.v.xingyunyd.com/live/656cf96e-2904-4b21-a37f-1b5938d702a5.gif" width="360"/>
+![图片预览](http://static.v.xingyunyd.com/live/656cf96e-2904-4b21-a37f-1b5938d702a5.gif)
 
 ## 使用方法
 
