@@ -1,3 +1,80 @@
-# BannerView
+### BannerView(轮播图控件)
+[![](https://img.shields.io/badge/release-v1.0.0-orange.svg)](https://github.com/PingerOne/BannerView/releases)[![](https://www.jitpack.io/v/PingerOne/BannerView.svg)](https://www.jitpack.io/#PingerOne/BannerView)[![](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/PingerOne/BannerView/blob/master/LICENSE)[![](https://img.shields.io/badge/简书-笑说余生-red.svg)](https://www.jianshu.com/u/64f479a1cef7)
 
-> 轮播图控件，支持无限循环轮播，支持三种常用页面特效，支持设置指示器等。
+
+---
+>  轮播图控件，封装ViewPager，支持无限循环轮播，支持三种常用页面特效，支持设置指示器，支持自动切换手动滑动和自动滑动的滑动时长，封装Banner的Holder实现更加简单。使用Kotlin开发，在项目中使用，满足大部分Banner相关需求，可以直接使用。
+
+### 简单预览
+
+<img src="http://static.v.xingyunyd.com/live/656cf96e-2904-4b21-a37f-1b5938d702a5.gif" width="360"/>
+
+## 使用方法
+
+1. 在项目根目录的build.gradle文件中添加jitpack仓库
+
+        allprojects {
+            repositories {
+                maven { url 'https://jitpack.io' }
+            }
+        }
+
+2. 在application的build.gradle文件中引入仓库依赖
+
+        dependencies {
+             implementation 'com.github.PingerOne:BannerView:1.0.0'
+        }
+
+3. 在xml文件中引用BannerView控件
+
+        <com.fungo.banner.BannerView
+            android:id="@+id/bannerView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:bannerAutoLoop="true"
+            app:bannerPageMode="cover"
+            app:bannerPageScale="0.9"
+            app:bannerPageAlpha="0.6"
+            app:bannerFarMargin="10dp"
+            app:bannerCoverMargin="10dp"
+            app:bannerPagePadding="20dp"
+            app:indicatorVisible="true"
+            app:indicatorAlign="right"
+            app:indicatorPaddingLeft="12dp"
+            app:indicatorPaddingBottom="12dp"
+            app:indicatorPaddingRight="12dp"/>
+
+4. 在代码中设置数据和适配器
+
+        bannerView.setPages(data, object : BannerHolderCreator<BannerBean, BannerHolder> {
+             override fun onCreateBannerHolder(): BannerHolder {
+                 return BannerHolder()
+             }
+         })
+
+
+
+## 常用属性
+| Name | Format | Description |
+| :- | :-| :- |
+| bannerAutoLoop| Boolean | 是否开启自动轮播 |
+| bannerPageMode| Int | 页面模式 |
+| bannerPageScale| Float | 左右页面的缩放比例 |
+| bannerPageAlpha| Float | 左右页面的透明度 |
+| bannerFarMargin| Dimension | 远离模式下左右页面的外边距 |
+| bannerCoverMargin| Dimension | 覆盖模式下左右页面的内边距 |
+| bannerPagePadding| Dimension | 中间页面距离左右的距离 |
+| indicatorVisible| Boolean | 指示器是否可见 |
+| indicatorAlign| Int | 指示器的位置 |
+| indicatorPaddingLeft| Int | 指示器距离左侧的距离 |
+| indicatorPaddingRight| Int | 指示器距离右侧的边距 |
+| indicatorPaddingTop| Int | 指示器距离顶部的边距 |
+| indicatorPaddingBottom| Int | 指示器距离底部的边距 |
+
+
+### 参考
+* [仿魅族应用的广告BannerView](https://jianshu.com/p/653680cfe877)
+* [巧用ViewPager 打造不一样的广告轮播切换效果](https://blog.csdn.net/lmj623565791/article/details/51339751)
+
+---
+> 欢迎大家访问我的[简书](http://www.jianshu.com/u/64f479a1cef7)，[博客](http://pingerone.com/)和[GitHub](https://github.com/PingerOne)。

@@ -12,13 +12,25 @@
         android:background="@color/colorPrimary"
         tools:context=".MainActivity">
 
-        <!--普通模式-->
         <com.fungo.banner.BannerView
             android:id="@+id/bannerView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="30dp"
-            app:bannerPageMode="normal"
+            app:bannerPageMode="cover"
+            app:bannerPageScale="0.9"
+            app:bannerPageAlpha="0.6"
+            app:bannerFarMargin="10dp"
+            app:bannerAutoLoop="true"
+            app:bannerCoverMargin="10dp"
+            app:bannerPagePadding="20dp"
+
+            app:indicatorVisible="true"
+            app:indicatorAlign="right"
+            app:indicatorPaddingLeft="12dp"
+            app:indicatorPaddingBottom="12dp"
+            app:indicatorPaddingRight="12dp"
+
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
