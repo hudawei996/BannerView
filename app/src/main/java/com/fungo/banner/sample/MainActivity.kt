@@ -1,4 +1,4 @@
-package com.fungo.sample
+package com.fungo.banner.sample
 
 import android.os.Bundle
 import android.os.Handler
@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import com.fungo.banner.BannerView
 import com.fungo.banner.holder.BannerHolderCreator
 import com.fungo.imagego.strategy.ImageEngine
-import com.fungo.sample.banner.BannerBean
-import com.fungo.sample.banner.BannerHolder
+import com.fungo.banner.sample.holder.BannerBean
+import com.fungo.banner.sample.holder.BannerHolder
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.fungo.sample.banner
+package com.fungo.banner.sample.holder
 
 import android.text.TextUtils
 import android.view.View
@@ -6,8 +6,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.fungo.banner.holder.BaseBannerHolder
+import com.fungo.banner.sample.R
 import com.fungo.imagego.loadImage
-import com.fungo.sample.R
 
 /**
  * @author Pinger

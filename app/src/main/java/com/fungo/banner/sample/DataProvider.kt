@@ -1,6 +1,6 @@
-package com.fungo.sample
+package com.fungo.banner.sample
 
-import com.fungo.sample.banner.BannerBean
+import com.fungo.banner.sample.holder.BannerBean
 
 /**
  * @author Pinger

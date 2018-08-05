@@ -1,4 +1,4 @@
-package com.fungo.sample.banner
+package com.fungo.banner.sample.holder
 
 /**
  * @author Pinger
