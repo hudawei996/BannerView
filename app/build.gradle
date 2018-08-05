@@ -13,9 +13,19 @@ android {
         versionName rootProject.ext.android.versionName
     }
 
+    signingConfigs {
+        config {
+            storeFile file(rootProject.ext.signingConfigs.STORE_FILE)
+            keyAlias rootProject.ext.signingConfigs.KEY_ALIAS
+            keyPassword rootProject.ext.signingConfigs.KEY_PASSWORD
+            storePassword rootProject.ext.signingConfigs.STORE_PASSWORD
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

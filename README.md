@@ -1,5 +1,5 @@
-# BannerView(轮播图控件)
-[![](https://img.shields.io/badge/release-v1.0.0-orange.svg)](https://github.com/PingerOne/BannerView/releases) [![](https://www.jitpack.io/v/PingerOne/BannerView.svg)](https://www.jitpack.io/#PingerOne/BannerView) [![](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/PingerOne/BannerView/blob/master/LICENSE) [![](https://img.shields.io/badge/简书-笑说余生-red.svg)](https://www.jianshu.com/u/64f479a1cef7)
+# [BannerView(轮播图控件)](https://github.com/PingerOne/BannerView)
+[![](https://img.shields.io/badge/download-apk-yellow.svg)](https://www.pgyer.com/apiv2/app/install?appKey=9433e2bd2db02dbe4da8f2a97c7bf0cd&_api_key=c82f0298d6616c3dc3a4ac02c7919399) [![](https://img.shields.io/badge/release-v1.0.0-orange.svg)](https://github.com/PingerOne/BannerView/releases) [![](https://www.jitpack.io/v/PingerOne/BannerView.svg)](https://www.jitpack.io/#PingerOne/BannerView) [![](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/PingerOne/BannerView/blob/master/LICENSE) [![](https://img.shields.io/badge/简书-笑说余生-red.svg)](https://www.jianshu.com/u/64f479a1cef7)
 
 
 

@@ -18,5 +18,10 @@ ext {
             cardview         : 'com.android.support:cardview-v7:27.1.1',
     ]
 
-
+    signingConfigs = [
+            STORE_PASSWORD: "fungo2018",
+            KEY_PASSWORD  : "fungo2018",
+            KEY_ALIAS     : "fungo",
+            STORE_FILE    : "../config/keystore/fungo.jks"
+    ]
 }
