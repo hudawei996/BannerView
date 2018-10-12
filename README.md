@@ -7,8 +7,6 @@
 
 本项目基于[MZBannerView](https://github.com/pinguo-zhouwei/MZBannerView)进行二次开发，只用于开源交流，如果侵权等问题请及时提醒。
 
-## 简单预览
-![简单预览](http://chuantu.biz/t6/353/1533459585x-1566660894.jpg)
 
 ## 使用方法
 

@@ -5,9 +5,9 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import com.fungo.banner.BannerView
 import com.fungo.banner.holder.BannerHolderCreator
-import com.fungo.imagego.strategy.ImageEngine
 import com.fungo.banner.sample.holder.BannerBean
 import com.fungo.banner.sample.holder.BannerHolder
+import com.fungo.imagego.strategy.ImageGoEngine
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        ImageEngine.setAutoGif(true)
+        ImageGoEngine.setAutoGif(true)
 
         mBannerView = findViewById(R.id.bannerView)
 
