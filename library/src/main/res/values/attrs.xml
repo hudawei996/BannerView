@@ -25,6 +25,8 @@
             <enum name="right" value="2" />
         </attr>
 
+        <attr name="indicatorSelectRes" format="reference" />
+        <attr name="indicatorUnSelectRes" format="reference" />
 
     </declare-styleable>
 

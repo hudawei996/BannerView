@@ -1,12 +1,12 @@
 package com.fungo.banner
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
 import android.os.Handler
 import android.support.annotation.AttrRes
 import android.support.annotation.DrawableRes
-import android.support.annotation.RequiresApi
 import android.support.annotation.StyleRes
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
@@ -118,7 +118,7 @@ class BannerView<T> : RelativeLayout {
     private val mIndicators = ArrayList<ImageView>()
 
     // 指示器的图片资源 mIndicatorRes[0] 为为选中，mIndicatorRes[1]为选中
-    private val mIndicatorRes = intArrayOf(R.drawable.banner_indicator_normal, R.drawable.banner_indicator_selected)
+    private var mIndicatorRes = emptyArray<Int>()
 
     constructor(context: Context) : this(context, null)
 
@@ -126,11 +126,12 @@ class BannerView<T> : RelativeLayout {
 
     constructor(context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context: Context, attrs: AttributeSet?, @AttrRes defStyleAttr: Int, @StyleRes defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
         readAttrs(context, attrs)
         initView()
     }
+
 
     private fun readAttrs(context: Context, attrs: AttributeSet?) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BannerView)
@@ -151,7 +152,13 @@ class BannerView<T> : RelativeLayout {
         mIndicatorPaddingRight = typedArray.getDimensionPixelSize(R.styleable.BannerView_indicatorPaddingRight, mIndicatorPaddingRight)
         mIndicatorPaddingTop = typedArray.getDimensionPixelSize(R.styleable.BannerView_indicatorPaddingTop, mIndicatorPaddingTop)
         mIndicatorPaddingBottom = typedArray.getDimensionPixelSize(R.styleable.BannerView_indicatorPaddingBottom, mIndicatorPaddingBottom)
+
+        val indicatorSelectRes = typedArray.getResourceId(R.styleable.BannerView_indicatorSelectRes, R.drawable.banner_indicator_selected)
+        val indicatorUnSelectRes = typedArray.getResourceId(R.styleable.BannerView_indicatorSelectRes, R.drawable.banner_indicator_normal)
+
         typedArray.recycle()
+
+        mIndicatorRes = arrayOf(indicatorSelectRes, indicatorUnSelectRes)
 
         mPageMode = when (pageMode) {
             PageMode.COVER.ordinal -> PageMode.COVER
@@ -265,8 +272,7 @@ class BannerView<T> : RelativeLayout {
             mIndicators.add(imageView)
             mIndicatorContainer.addView(imageView)
         }
-
-
+        setIndicatorVisible(isIndicatorVisible)
     }
 
     /**
@@ -299,8 +305,8 @@ class BannerView<T> : RelativeLayout {
             return super.dispatchTouchEvent(ev)
         }
         when (ev.action) {
-        // TODO 触摸边缘不滑动
-        // 按住Banner的时候，停止自动轮播
+            // TODO 触摸边缘不滑动
+            // 按住Banner的时候，停止自动轮播
             MotionEvent.ACTION_MOVE, MotionEvent.ACTION_OUTSIDE, MotionEvent.ACTION_DOWN -> {
                 mFirstTouchTime = System.currentTimeMillis()
                 // 按下或者移动的时候，暂停轮播
@@ -473,6 +479,7 @@ class BannerView<T> : RelativeLayout {
      * @param params 布局参数
      * @param verb 规则
      */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun addIndicatorRule(params: RelativeLayout.LayoutParams, verb: Int) {
         when (verb) {
             RelativeLayout.ALIGN_PARENT_LEFT -> {
@@ -507,7 +514,6 @@ class BannerView<T> : RelativeLayout {
         if (datas == null) {
             return
         }
-        mViewPager.offscreenPageLimit = datas.size
 
         // 如果在播放，就先让播放停止
         pause()
@@ -524,6 +530,7 @@ class BannerView<T> : RelativeLayout {
         // 设置ViewPager适配器
         mAdapter = BannerPagerAdapter(datas, holderCreator, isAutoLoop)
         mAdapter!!.setUpViewPager(mViewPager)
+        mViewPager.offscreenPageLimit = datas.size
 
         // 添加滑动监听
         mViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
