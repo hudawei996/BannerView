@@ -8,6 +8,10 @@
 本项目基于[MZBannerView](https://github.com/pinguo-zhouwei/MZBannerView)进行二次开发，只用于开源交流，如果侵权等问题请及时提醒。
 
 
+## 预览
+![BannerView](http://ph7b4jne7.bkt.clouddn.com/image/banner.gif)
+
+
 ## 使用方法
 
 1. 在项目根目录的build.gradle文件中添加jitpack仓库

@@ -10,7 +10,6 @@ import com.fungo.banner.sample.holder.BannerBean
 
 object DataProvider {
 
-
     /**
      * 获取网络数据
      */

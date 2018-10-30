@@ -37,8 +37,6 @@ class MainActivity : AppCompatActivity() {
                 rbHide.isChecked = true
             }, 1200)
         }
-
-
     }
 
     private fun initEvent() {

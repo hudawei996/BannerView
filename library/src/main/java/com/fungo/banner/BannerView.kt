@@ -642,6 +642,7 @@ class BannerView<T> : RelativeLayout {
      * @param visible 是否可见
      */
     fun setIndicatorVisible(visible: Boolean) {
+        isIndicatorVisible = visible
         if (visible) {
             this.mIndicatorContainer.visibility = View.VISIBLE
         } else {
