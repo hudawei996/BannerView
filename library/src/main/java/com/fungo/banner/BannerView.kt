@@ -252,6 +252,8 @@ class BannerView<T> : RelativeLayout {
         // 如果数据大小不够就隐藏
         if (datas.size < 2) {
             setIndicatorVisible(false)
+        } else {
+            setIndicatorVisible(isIndicatorVisible)
         }
 
         mIndicatorContainer.removeAllViews()
@@ -272,7 +274,6 @@ class BannerView<T> : RelativeLayout {
             mIndicators.add(imageView)
             mIndicatorContainer.addView(imageView)
         }
-        setIndicatorVisible(isIndicatorVisible)
     }
 
     /**
