@@ -53,7 +53,7 @@ class BannerView<T> : RelativeLayout {
     private var mCurrentItem = 0
 
     // Banner自动轮播的切换时间，默认是4秒
-    private var mDuration = 4000L
+    private var mDuration = 4000
 
     // 是否支持滑动动画
     private var isSlideAnim = true
@@ -82,8 +82,8 @@ class BannerView<T> : RelativeLayout {
     // 左右两边页面的透明度
     private var mPageAlpha = 0.8f
 
-    // Banner自动滑动时的滑动时长
-    private var mScrollDuration = 1200
+    // Banner手动滑动时的滑动时长
+    private var mSlideDuration = 1200
 
     // 第一次手动触摸Banner的时候
     private var mFirstTouchTime = 0L
@@ -144,6 +144,9 @@ class BannerView<T> : RelativeLayout {
         mFarMargin = typedArray.getDimensionPixelSize(R.styleable.BannerView_bannerFarMargin, mFarMargin)
         mPageScale = typedArray.getFloat(R.styleable.BannerView_bannerPageScale, mPageScale)
         mPageAlpha = typedArray.getFloat(R.styleable.BannerView_bannerPageAlpha, mPageAlpha)
+
+        mDuration = typedArray.getInteger(R.styleable.BannerView_bannerDuration, mDuration)
+        mSlideDuration = typedArray.getInteger(R.styleable.BannerView_bannerSlideDuration, mSlideDuration)
 
         val defaultPadding = if (pageMode == PageMode.NORMAL.ordinal) 0 else mPagePadding
         mPagePadding = typedArray.getDimensionPixelSize(R.styleable.BannerView_bannerPagePadding, defaultPadding)
@@ -215,13 +218,13 @@ class BannerView<T> : RelativeLayout {
                 if (mCurrentItem == mAdapter!!.count - 1) {
                     mCurrentItem = 0
                     mViewPager.setCurrentItem(mCurrentItem, false)
-                    mHandler.postDelayed(this, mDuration)
+                    mHandler.postDelayed(this, mDuration.toLong())
                 } else {
                     mViewPager.currentItem = mCurrentItem
-                    mHandler.postDelayed(this, mDuration)
+                    mHandler.postDelayed(this, mDuration.toLong())
                 }
             } else {
-                mHandler.postDelayed(this, mDuration)
+                mHandler.postDelayed(this, mDuration.toLong())
             }
         }
     }
@@ -445,14 +448,14 @@ class BannerView<T> : RelativeLayout {
     inner class ViewPagerScroller(context: Context) : Scroller(context) {
 
         override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int) {
-            super.startScroll(startX, startY, dx, dy, mScrollDuration)
+            super.startScroll(startX, startY, dx, dy, mSlideDuration)
         }
 
         override fun startScroll(startX: Int, startY: Int, dx: Int, dy: Int, duration: Int) {
             var durationX = duration
             // 如果是自动轮播，就使用动画模式，如果不是就还是用原来的模式
             if (System.currentTimeMillis() - mFirstTouchTime >= mDuration) {
-                durationX = mScrollDuration
+                durationX = mSlideDuration
             }
             super.startScroll(startX, startY, dx, dy, durationX)
         }
@@ -598,7 +601,7 @@ class BannerView<T> : RelativeLayout {
         // 如果Adapter为null, 说明还没有设置数据，这个时候不应该轮播Banner
         if (isAutoLoop && !isAutoLooping && mAdapter?.count ?: 0 > 2) {
             isAutoLooping = true
-            this.mHandler.postDelayed(mLoopRunnable, mDuration)
+            this.mHandler.postDelayed(mLoopRunnable, mDuration.toLong())
         }
     }
 
@@ -626,8 +629,17 @@ class BannerView<T> : RelativeLayout {
      * 开启自动轮播之后，过了duration时间Page就会自动切换到下一页
      * @param duration 切换时长
      */
-    fun setDuration(duration: Long) {
+    fun setDuration(duration: Int) {
         this.mDuration = duration
+    }
+
+    /**
+     * 设置滑动BannerView时，滑动过程中的时长
+     *
+     * @param slideDuration 滑动时长
+     */
+    fun setSlideDuration(slideDuration: Int) {
+        mSlideDuration = slideDuration
     }
 
     /**

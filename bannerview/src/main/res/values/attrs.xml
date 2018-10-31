@@ -5,6 +5,8 @@
     <declare-styleable name="BannerView">
         <attr name="bannerAutoLoop" format="boolean" />
         <attr name="bannerSlideAnim" format="boolean" />
+        <attr name="bannerSlideDuration" format="integer" />
+        <attr name="bannerDuration" format="integer" />
         <attr name="bannerCoverMargin" format="dimension" />
         <attr name="bannerFarMargin" format="dimension" />
         <attr name="bannerPagePadding" format="dimension" />
