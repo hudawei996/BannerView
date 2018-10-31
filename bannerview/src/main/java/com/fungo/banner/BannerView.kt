@@ -46,9 +46,6 @@ import java.util.*
  */
 class BannerView<T> : RelativeLayout {
 
-    // 控制ViewPager滑动速度的Scroller
-    private lateinit var mViewPagerScroller: ViewPagerScroller
-
     // 适配器
     private var mAdapter: BannerPagerAdapter<T>? = null
 
@@ -57,6 +54,9 @@ class BannerView<T> : RelativeLayout {
 
     // Banner自动轮播的切换时间，默认是4秒
     private var mDuration = 4000L
+
+    // 是否支持滑动动画
+    private var isSlideAnim = true
 
     // 是否自动轮播图片
     private var isAutoLoop = true
@@ -136,6 +136,7 @@ class BannerView<T> : RelativeLayout {
     private fun readAttrs(context: Context, attrs: AttributeSet?) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BannerView)
         isAutoLoop = typedArray.getBoolean(R.styleable.BannerView_bannerAutoLoop, isAutoLoop)
+        isSlideAnim = typedArray.getBoolean(R.styleable.BannerView_bannerSlideAnim, isSlideAnim)
         isIndicatorVisible = typedArray.getBoolean(R.styleable.BannerView_indicatorVisible, isIndicatorVisible)
 
         val pageMode = typedArray.getInt(R.styleable.BannerView_bannerPageMode, mPageMode.ordinal)
@@ -229,19 +230,19 @@ class BannerView<T> : RelativeLayout {
      * 设置ViewPager的滑动速度
      */
     private fun initViewPagerScroll() {
-        try {
-            val mScroller: Field = ViewPager::class.java.getDeclaredField("mScroller")
-            mScroller.isAccessible = true
-            mViewPagerScroller = ViewPagerScroller(mViewPager.context)
-            mScroller.set(mViewPager, mViewPagerScroller)
-        } catch (e: NoSuchFieldException) {
-            e.printStackTrace()
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
+        if (isSlideAnim) {
+            try {
+                val mScroller: Field = ViewPager::class.java.getDeclaredField("mScroller")
+                mScroller.isAccessible = true
+                mScroller.set(mViewPager, ViewPagerScroller(mViewPager.context))
+            } catch (e: NoSuchFieldException) {
+                e.printStackTrace()
+            } catch (e: IllegalArgumentException) {
+                e.printStackTrace()
+            } catch (e: IllegalAccessException) {
+                e.printStackTrace()
+            }
         }
-
     }
 
 

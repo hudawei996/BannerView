@@ -25,7 +25,7 @@
 2. 在application的build.gradle文件中引入仓库依赖
 
         dependencies {
-             implementation 'com.github.PingerOne:BannerView:1.0.5'
+             implementation 'com.github.PingerOne:BannerView:1.0.6'
         }
 
 3. 在xml文件中引用BannerView控件
