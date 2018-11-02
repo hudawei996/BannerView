@@ -2,6 +2,7 @@ package com.fungo.banner.sample
 
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import com.fungo.banner.BannerView
 import com.fungo.banner.holder.BannerHolderCreator
@@ -70,6 +71,13 @@ class MainActivity : AppCompatActivity() {
         rbWeb.isChecked = true
         rbNormal.isChecked = true
         rbHide.isChecked = true
+
+
+        mBannerView?.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
+            override fun onPageScrollStateChanged(p0: Int) {
+                swipeRefreshLayout.isEnabled = p0 != ViewPager.SCROLL_STATE_DRAGGING
+            }
+        })
     }
 
 
@@ -77,7 +85,7 @@ class MainActivity : AppCompatActivity() {
      * 更新BannerView
      */
     private fun updateBanner(data: ArrayList<BannerBean>?) {
-        mBannerView?.setAutoLoop(data!!.size > 2)
+        mBannerView?.setAutoLoop(false)
         if (data!!.size < 2) {
             rbHide.isChecked = true
         }

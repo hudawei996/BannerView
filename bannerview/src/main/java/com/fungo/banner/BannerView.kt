@@ -22,7 +22,7 @@ import android.widget.RelativeLayout
 import android.widget.Scroller
 import com.fungo.banner.holder.BannerHolderCreator
 import com.fungo.banner.holder.BaseBannerHolder
-import com.fungo.banner.pager.CustomViewPager
+import com.fungo.banner.pager.BounceBackViewPager
 import com.fungo.banner.transformer.CoverModeTransformer
 import com.fungo.banner.transformer.ScaleAlphaTransformer
 import java.lang.ref.WeakReference
@@ -105,8 +105,8 @@ class BannerView<T> : RelativeLayout {
     private var mOnPageChangeListener: ViewPager.OnPageChangeListener? = null
 
     // ViewPager
-    private val mViewPager: CustomViewPager by lazy {
-        findViewById<CustomViewPager>(R.id.viewPager)
+    private val mViewPager: BounceBackViewPager by lazy {
+        findViewById<BounceBackViewPager>(R.id.viewPager)
     }
 
     // IndicatorContainer
@@ -542,9 +542,7 @@ class BannerView<T> : RelativeLayout {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
                 val realPosition = position % mIndicators.size
-                if (mOnPageChangeListener != null) {
-                    mOnPageChangeListener!!.onPageScrolled(realPosition, positionOffset, positionOffsetPixels)
-                }
+                mOnPageChangeListener?.onPageScrolled(realPosition, positionOffset, positionOffsetPixels)
             }
 
             override fun onPageSelected(position: Int) {
@@ -563,9 +561,7 @@ class BannerView<T> : RelativeLayout {
                     }
                 }
                 // 不能直接将mOnPageChangeListener 设置给ViewPager ,否则拿到的position 是原始的positon
-                if (mOnPageChangeListener != null) {
-                    mOnPageChangeListener!!.onPageSelected(realSelectPosition)
-                }
+                mOnPageChangeListener?.onPageSelected(realSelectPosition)
             }
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -573,9 +569,7 @@ class BannerView<T> : RelativeLayout {
                     ViewPager.SCROLL_STATE_DRAGGING -> isAutoLooping = false
                     ViewPager.SCROLL_STATE_SETTLING -> isAutoLooping = true
                 }
-                if (mOnPageChangeListener != null) {
-                    mOnPageChangeListener!!.onPageScrollStateChanged(state)
-                }
+                mOnPageChangeListener?.onPageScrollStateChanged(state)
             }
         })
 
@@ -646,7 +640,7 @@ class BannerView<T> : RelativeLayout {
      * 添加Banner滑动事件
      * @param listener 滑动回调
      */
-    fun addPageChangeLisnter(listener: ViewPager.OnPageChangeListener) {
+    fun addOnPageChangeListener(listener: ViewPager.OnPageChangeListener) {
         this.mOnPageChangeListener = listener
     }
 
@@ -789,4 +783,5 @@ class BannerView<T> : RelativeLayout {
     fun getPageMode(): PageMode {
         return mPageMode
     }
+
 }

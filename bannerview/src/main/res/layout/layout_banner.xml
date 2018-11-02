@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:clipChildren="false">
 
-    <com.fungo.banner.pager.CustomViewPager
+    <com.fungo.banner.pager.BounceBackViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

@@ -21,10 +21,9 @@
             app:bannerPageScale="0.9"
             app:bannerPageAlpha="0.6"
             app:bannerFarMargin="10dp"
-            app:bannerAutoLoop="true"
+            app:bannerAutoLoop="false"
             app:bannerCoverMargin="10dp"
             app:bannerPagePadding="20dp"
-
             app:indicatorVisible="true"
             app:indicatorAlign="right"
             app:indicatorPaddingLeft="12dp"
