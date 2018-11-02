@@ -78,6 +78,19 @@ class MainActivity : AppCompatActivity() {
                 swipeRefreshLayout.isEnabled = p0 == ViewPager.SCROLL_STATE_IDLE
             }
         })
+
+        switchButton.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                // 默认支持回弹，去除自动轮播，就会有边界
+                swipeRefreshLayout.isEnabled = false
+                mBannerView?.setAutoLoop(false)
+                updateBanner(mDatas)
+            } else {
+                swipeRefreshLayout.isEnabled = true
+                mBannerView?.setAutoLoop(true)
+                updateBanner(mDatas)
+            }
+        }
     }
 
 
@@ -85,7 +98,6 @@ class MainActivity : AppCompatActivity() {
      * 更新BannerView
      */
     private fun updateBanner(data: ArrayList<BannerBean>?) {
-        mBannerView?.setAutoLoop(false)
         if (data!!.size < 2) {
             rbHide.isChecked = true
         }

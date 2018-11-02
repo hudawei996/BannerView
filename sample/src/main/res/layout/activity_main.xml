@@ -17,20 +17,19 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="30dp"
-            app:bannerPageMode="cover"
-            app:bannerPageScale="0.9"
-            app:bannerPageAlpha="0.6"
-            app:bannerFarMargin="10dp"
-            app:bannerAutoLoop="false"
+            app:bannerAutoLoop="true"
             app:bannerCoverMargin="10dp"
+            app:bannerFarMargin="10dp"
+            app:bannerPageAlpha="0.6"
+            app:bannerPageMode="cover"
             app:bannerPagePadding="20dp"
-            app:indicatorVisible="true"
+            app:bannerPageScale="0.9"
             app:bannerSlideAnim="true"
             app:indicatorAlign="right"
-            app:indicatorPaddingLeft="12dp"
             app:indicatorPaddingBottom="12dp"
+            app:indicatorPaddingLeft="12dp"
             app:indicatorPaddingRight="12dp"
-
+            app:indicatorVisible="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,12 +40,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="30dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bannerView"
-            android:layout_marginLeft="16dp">
+            app:layout_constraintTop_toBottomOf="@id/bannerView">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,12 +86,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dataFromContainer"
-            android:layout_marginLeft="16dp">
+            app:layout_constraintTop_toBottomOf="@id/dataFromContainer">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -143,12 +142,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pageModeContainer"
-            android:layout_marginLeft="16dp">
+            app:layout_constraintTop_toBottomOf="@id/pageModeContainer">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -202,6 +201,34 @@
 
         </LinearLayout>
 
+
+        <!--越界回弹-->
+        <LinearLayout
+            android:id="@+id/overscrollContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/indicatorContainer">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="越界回弹："
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:checked="false" />
+        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 

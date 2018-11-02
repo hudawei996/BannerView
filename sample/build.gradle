@@ -28,6 +28,7 @@ dependencies {
     implementation rootProject.ext.dependencies.appcompat_v7
     implementation rootProject.ext.dependencies.constraint_layout
     implementation rootProject.ext.dependencies.cardview
+    implementation rootProject.ext.dependencies.design
 
     implementation project(':bannerview')
 
