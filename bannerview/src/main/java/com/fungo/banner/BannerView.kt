@@ -83,7 +83,7 @@ class BannerView<T> : RelativeLayout {
     private var mPageAlpha = 0.8f
 
     // Banner手动滑动时的滑动时长
-    private var mSlideDuration = 1200
+    private var mSlideDuration = 800
 
     // 第一次手动触摸Banner的时候
     private var mFirstTouchTime = 0L
@@ -784,4 +784,17 @@ class BannerView<T> : RelativeLayout {
         return mPageMode
     }
 
+    /**
+     * 设置ViewPager越界回弹的宽度
+     */
+    fun setOverscrollTranslation(overscrollTranslation: Float) {
+        mViewPager.setOverscrollTranslation(overscrollTranslation)
+    }
+
+    /**
+     * 设置越界回弹返回的时长
+     */
+    fun setOverscrollAnimationDuration(overscrollAnimationDuration: Long) {
+        mViewPager.setOverscrollAnimationDuration(overscrollAnimationDuration)
+    }
 }

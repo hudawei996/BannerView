@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
         mBannerView?.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageScrollStateChanged(p0: Int) {
-                swipeRefreshLayout.isEnabled = p0 != ViewPager.SCROLL_STATE_DRAGGING
+                swipeRefreshLayout.isEnabled = p0 == ViewPager.SCROLL_STATE_IDLE
             }
         })
     }

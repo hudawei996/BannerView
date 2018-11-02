@@ -25,6 +25,7 @@
             app:bannerCoverMargin="10dp"
             app:bannerPagePadding="20dp"
             app:indicatorVisible="true"
+            app:bannerSlideAnim="true"
             app:indicatorAlign="right"
             app:indicatorPaddingLeft="12dp"
             app:indicatorPaddingBottom="12dp"
@@ -44,7 +45,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bannerView">
+            app:layout_constraintTop_toBottomOf="@id/bannerView"
+            android:layout_marginLeft="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,7 +91,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dataFromContainer">
+            app:layout_constraintTop_toBottomOf="@id/dataFromContainer"
+            android:layout_marginLeft="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -144,7 +147,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pageModeContainer">
+            app:layout_constraintTop_toBottomOf="@id/pageModeContainer"
+            android:layout_marginLeft="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
